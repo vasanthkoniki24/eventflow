@@ -1,0 +1,26 @@
+# Environment files
+.env
+backend/.env
+frontend/.env
+
+# Python
+backend/venv/
+venv/
+pycache/
+*.pyc
+*.pyo
+
+# Node
+frontend/node_modules/
+node_modules/
+frontend/dist/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Alembic cache
+alembic/versions/*.pyc

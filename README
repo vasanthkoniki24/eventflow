@@ -1,0 +1,235 @@
+# EventFlow – Event Booking and Ticketing Platform
+
+A full-stack web application for browsing events, booking tickets, and processing payments via Stripe. Admins can manage events, monitor bookings, and view revenue analytics.
+
+---
+
+## Tech Stack
+
+### Backend
+- FastAPI
+- PostgreSQL
+- SQLAlchemy
+- Alembic
+- JWT Authentication
+- Stripe Payment Integration
+
+### Frontend
+- React with Vite
+- Axios
+- Custom CSS
+- Role-Based Routing
+
+---
+
+## Project Structure
+
+```eventflow
+├── backend
+│   ├── app
+│   │   ├── api
+│   │   │   └── routes
+│   │   │       ├── auth.py
+│   │   │       ├── events.py
+│   │   │       ├── bookings.py
+│   │   │       ├── payments.py
+│   │   │       ├── notifications.py
+│   │   │       └── admin.py
+│   │   ├── core
+│   │   │   ├── config.py
+│   │   │   ├── security.py
+│   │   │   └── dependencies.py
+│   │   ├── db
+│   │   │   ├── session.py
+│   │   │   └── init_db.py
+│   │   ├── models
+│   │   │   ├── user.py
+│   │   │   ├── event.py
+│   │   │   ├── booking.py
+│   │   │   ├── payment.py
+│   │   │   └── notification.py
+│   │   ├── schemas
+│   │   │   ├── user.py
+│   │   │   ├── event.py
+│   │   │   └── booking.py
+│   │   ├── services
+│   │   │   ├── auth_service.py
+│   │   │   ├── event_service.py
+│   │   │   ├── booking_service.py
+│   │   │   └── payment_service.py
+│   │   └── main.py
+│   ├── alembic
+│   │   ├── versions
+│   │   ├── env.py
+│   │   └── script.py.mako
+│   ├── alembic.ini
+│   ├── requirements.txt
+│   └── .env
+│
+└── frontend
+    ├── public
+    │   └── favicon.ico
+    ├── src
+    │   ├── api
+    │   │   ├── axios.js
+    │   │   ├── auth.api.js
+    │   │   ├── events.api.js
+    │   │   ├── bookings.api.js
+    │   │   ├── payments.api.js
+    │   │   ├── admin.api.js
+    │   │   └── notifications.api.js
+    │   ├── components
+    │   │   ├── ui
+    │   │   │   ├── Button.jsx
+    │   │   │   ├── Card.jsx
+    │   │   │   ├── Input.jsx
+    │   │   │   ├── Badge.jsx
+    │   │   │   └── Modal.jsx
+    │   │   ├── layout
+    │   │   │   ├── AppShell.jsx
+    │   │   │   ├── Navbar.jsx
+    │   │   │   └── PageWrapper.jsx
+    │   │   ├── events
+    │   │   │   ├── EventCard.jsx
+    │   │   │   ├── EventForm.jsx
+    │   │   │   └── EventHero.jsx
+    │   │   ├── bookings
+    │   │   │   ├── BookingCard.jsx
+    │   │   │   ├── BookingForm.jsx
+    │   │   │   └── BookingStatus.jsx
+    │   │   └── admin
+    │   │       ├── StatCard.jsx
+    │   │       └── RevenueChart.jsx
+    │   ├── pages
+    │   │   ├── LandingPage.jsx
+    │   │   ├── LoginPage.jsx
+    │   │   ├── RegisterPage.jsx
+    │   │   ├── EventsPage.jsx
+    │   │   ├── EventDetailPage.jsx
+    │   │   ├── CheckoutPage.jsx
+    │   │   ├── PaymentSuccessPage.jsx
+    │   │   ├── PaymentCancelPage.jsx
+    │   │   ├── MyBookingsPage.jsx
+    │   │   ├── NotificationsPage.jsx
+    │   │   └── admin
+    │   │       ├── AdminDashboard.jsx
+    │   │       ├── AdminEvents.jsx
+    │   │       ├── AdminBookings.jsx
+    │   │       └── AdminRevenue.jsx
+    │   ├── router
+    │   │   ├── index.jsx
+    │   │   ├── ProtectedRoute.jsx
+    │   │   └── AdminRoute.jsx
+    │   ├── store
+    │   │   └── authStore.js
+    │   ├── utils
+    │   │   ├── formatCurrency.js
+    │   │   ├── formatDate.js
+    │   │   └── tokenStorage.js
+    │   ├── styles
+    │   │   └── globals.css
+    │   ├── App.jsx
+    │   └── main.jsx
+    ├── package.json
+    └── .env
+---
+
+## API Endpoints
+
+### Auth
+
+POST /auth/register
+- Register a new user
+- Auth Required: No
+
+POST /auth/login
+- Login and receive JWT token
+- Auth Required: No
+
+GET /auth/me
+- Get current authenticated user
+- Auth Required: Yes
+
+---
+
+### Events
+
+GET /events
+- List all events
+- Auth Required: No
+
+GET /events/{id}
+- Get event details by ID
+- Auth Required: No
+
+POST /events
+- Create a new event
+- Auth Required: Admin only
+
+PUT /events/{id}
+- Update an existing event
+- Auth Required: Admin only
+
+DELETE /events/{id}
+- Delete an event
+- Auth Required: Admin only
+
+---
+
+### Bookings
+
+POST /bookings
+- Create a new booking
+- Auth Required: Yes
+
+GET /bookings
+- List all bookings
+- Auth Required: Admin only
+
+GET /bookings/{id}
+- Get booking details by ID
+- Auth Required: Yes
+
+GET /my-bookings
+- Get current user's bookings
+- Auth Required: Yes
+
+---
+
+### Payments
+
+POST /payments/create-session
+- Create a Stripe Checkout session
+- Auth Required: Yes
+
+POST /payments/webhook
+- Handle Stripe webhook events
+- Auth Required: Stripe Signature
+
+---
+
+### Admin Analytics
+
+GET /admin/analytics/events
+- View event performance analytics
+- Auth Required: Admin only
+
+GET /admin/analytics/revenue
+- View revenue analytics and summaries
+- Auth Required: Admin only
+
+POST /admin/bookings/{id}/cancel
+- Cancel a booking by ID
+- Auth Required: Admin only
+
+---
+
+### Notifications
+
+GET /notifications
+- List notifications for the logged-in user
+- Auth Required: Yes
+
+PATCH /notifications/{id}/read
+- Mark notification as read
+- Auth Required: Yes
