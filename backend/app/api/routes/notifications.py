@@ -15,7 +15,7 @@ def get_notifications(
     return (
         db.query(Notification)
         .filter(Notification.user_id == current_user.id)
-        .order_by(Notification.created_at.desc())
+        .order_by(Notification.created_at.asc())
         .all()
     )
 
